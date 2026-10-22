@@ -16,8 +16,8 @@
 .envelope .es-inner{background-image:url('assets/flap_inner.webp');opacity:0}
 .envelope [data-part=seal]{left:161px;top:96px;width:112px;height:112px;z-index:5}
 .envelope [data-part=stamp]{left:705px;top:5px;width:180px;height:195px;z-index:7;filter:drop-shadow(0 7px 8px #0005)}
-.envelope .es-trails{left:334px;top:85px;width:600px;height:400px;z-index:0;opacity:.55;mix-blend-mode:screen}
-.envelope .es-aura{left:467px;top:145px;width:350px;height:310px;z-index:0;background:radial-gradient(ellipse,#ffbf552b,transparent 68%);mix-blend-mode:screen}
+.envelope .es-trails{left:334px;top:85px;width:600px;height:400px;z-index:0;opacity:.9;filter:brightness(1.3) drop-shadow(0 0 3px #ff9a2e);mix-blend-mode:screen}
+.envelope .es-aura{left:467px;top:145px;width:350px;height:310px;z-index:0;background:radial-gradient(ellipse,#ffbf5550,transparent 68%);mix-blend-mode:screen}
 .envelope [data-part=flash]{left:532px;top:190px;width:220px;height:220px;z-index:6;border-radius:50%;background:radial-gradient(circle,#fff9dc 0%,#ffd578ae 12%,#ffb94440 35%,transparent 69%);opacity:0;mix-blend-mode:screen}
 .envelope .es-spark{position:absolute;left:642px;top:300px;width:6px;height:6px;margin:-3px;border-radius:50%;z-index:8;opacity:0;background:radial-gradient(circle,#fffbe4,#ffd27a 35%,transparent 72%);pointer-events:none}
 .envelope .es-copy{position:absolute;left:370px;top:443px;width:540px;text-align:center;text-shadow:0 2px 12px #080e20}
