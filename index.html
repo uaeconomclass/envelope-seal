@@ -1,0 +1,105 @@
+<meta charset="utf-8">
+<title>Запечатанное письмо</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0f24;--fg:#f3e6cf;--btn:#c9923f;--btn-fg:#1b1206;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.frame{position:relative;width:100%;max-width:100%;aspect-ratio:1280/691;overflow:hidden;border-radius:12px}
+.stage{position:absolute;left:0;top:0;width:1280px;height:691px;transform-origin:0 0;background:url(bg.jpg) 0 0/1280px 691px}
+.abs{position:absolute}
+#env{left:425px;top:148px;width:418px;height:275px}
+#back{inset:0;background:linear-gradient(180deg,#7a5532 0%,#b58a5a 55%,#cfa774 100%);box-shadow:inset 0 10px 30px rgba(0,0,0,.45)}
+#letter{left:34px;top:40px;width:350px;height:200px;z-index:2;background:linear-gradient(170deg,#fffaf0,#f4e8d2);border-radius:3px;box-shadow:0 6px 18px rgba(0,0,0,.35);padding:12px 20px;font-family:Caveat,cursive;color:#3b2a1f}
+#letter h3{margin:0 0 6px;font-size:25px;font-weight:700;color:#8a2d1d}
+#letter li{list-style:none;font-size:21px;line-height:1.22}
+#letter li:before{content:"☑ ";color:#b8322a}
+#letter ul{margin:0;padding:0}
+#pocket{inset:0;z-index:3;background:url(env.png) 0 0/418px 275px;clip-path:polygon(0 0,51.9% 152px,100% 0,100% 100%,0 100%)}
+#flapW{left:0;top:0;width:418px;height:153px;z-index:1;filter:drop-shadow(0 3px 3px rgba(60,30,0,.35))}
+#flap{position:absolute;inset:0;clip-path:polygon(0 0,100% 0,51.9% 100%);transform-origin:50% 0}
+#flap .f,#flap .b{position:absolute;inset:0}
+#flap .f{background:url(env.png) 0 0/418px 275px}
+#flap .b{background:linear-gradient(0deg,#c9a06c,#e3c69a)}
+#glow{left:542px;top:200px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,214,140,.95) 0,rgba(255,170,60,.45) 30%,transparent 70%);opacity:0;z-index:6;mix-blend-mode:screen;pointer-events:none}
+#seal{left:161px;top:96px;width:112px;height:112px;z-index:5;opacity:0}
+#stamp{left:705px;top:5px;width:180px;height:195px;z-index:7;filter:drop-shadow(0 10px 12px rgba(0,0,0,.45))}
+.spark{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:radial-gradient(circle,#fff 0,#ffd27a 40%,transparent 70%);z-index:8;pointer-events:none}
+.bar{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:14px}
+button{font:600 15px system-ui,sans-serif;background:var(--btn);color:var(--btn-fg);border:0;border-radius:999px;padding:10px 22px;cursor:pointer}
+button:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+</style>
+<div class="wrap">
+  <div class="frame" id="frame">
+    <div class="stage" id="stage">
+      <div class="abs" id="env">
+        <div class="abs" id="back"></div>
+        <div class="abs" id="flapW"><div id="flap"><div class="b"></div><div class="f"></div></div></div>
+        <div class="abs" id="letter">
+          <h3>Мои планы на год</h3>
+          <ul><li>Больше путешествий</li><li>Финансовая подушка</li><li>Инвестиции</li><li>Меньше спонтанных покупок</li></ul>
+        </div>
+        <div class="abs" id="pocket"></div>
+        <img class="abs" id="seal" src="seal.png" alt="">
+      </div>
+      <div class="abs" id="glow"></div>
+      <img class="abs" id="stamp" src="stamp.png" alt="">
+    </div>
+  </div>
+  <div class="bar"><button id="replay">Повторить</button></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+const stage=document.getElementById('stage'),frame=document.getElementById('frame');
+function fit(){stage.style.transform='scale('+frame.clientWidth/1280+')'}
+addEventListener('resize',fit);fit();
+
+const flap=document.getElementById('flap'),flapW=document.getElementById('flapW'),
+      fFace=flap.querySelector('.f'),bFace=flap.querySelector('.b');
+function faces(){const r=gsap.getProperty(flap,'rotationX'),open=r>90;
+  fFace.style.opacity=open?0:1;bFace.style.opacity=open?1:0;flapW.style.zIndex=open?1:4}
+
+function burst(){
+  for(let i=0;i<26;i++){
+    const s=document.createElement('div');s.className='spark';stage.appendChild(s);
+    const a=Math.random()*Math.PI*2,d=60+Math.random()*130;
+    gsap.set(s,{left:642,top:300,scale:.6+Math.random()*1.4});
+    gsap.to(s,{x:Math.cos(a)*d,y:Math.sin(a)*d-20,opacity:0,duration:.9+Math.random()*.7,ease:'power2.out',onComplete:()=>s.remove()});
+  }
+}
+
+let tl;
+function play(){
+  tl&&tl.kill();
+  gsap.set(flap,{rotationX:180,transformPerspective:900});faces();
+  gsap.set('#letter',{y:-115,rotation:-2,opacity:1});
+  gsap.set('#seal',{opacity:0,scale:1.3,filter:'brightness(2)'});
+  gsap.set('#glow',{opacity:0,scale:.4});
+  gsap.set('#stamp',{x:0,y:0,rotation:0,transformOrigin:'47px 157px'});
+  gsap.set('#env',{y:0});
+  tl=gsap.timeline({delay:.6})
+    .to('#letter',{y:-128,duration:.5,ease:'sine.inOut'})
+    .to('#letter',{y:0,rotation:0,duration:1.2,ease:'power2.inOut'})
+    .to(flap,{rotationX:0,duration:.9,ease:'power2.inOut',onUpdate:faces},'-=.15')
+    .to('#stamp',{x:-110,y:103,rotation:-28,duration:.8,ease:'power2.inOut'},'+=.1')
+    .to('#stamp',{y:143,duration:.14,ease:'power3.in'})
+    .add(()=>{burst()})
+    .set('#seal',{opacity:1})
+    .to('#seal',{scale:1,filter:'brightness(1)',duration:.5,ease:'back.out(2)'})
+    .to('#glow',{opacity:1,scale:1.3,duration:.18,ease:'power2.out'},'<')
+    .to('#glow',{opacity:0,scale:1.6,duration:.8,ease:'power1.out'},'>')
+    .to('#env',{y:3,duration:.06,yoyo:true,repeat:1},'<-.95')
+    .to('#stamp',{x:0,y:0,rotation:0,duration:1,ease:'power2.inOut'},'-=.55');
+}
+document.getElementById('replay').onclick=play;
+addEventListener('load',()=>{play();if(matchMedia('(prefers-reduced-motion: reduce)').matches)tl.progress(1)});
+
+// лёгкий 3D-наклон конверта за курсором
+frame.addEventListener('mousemove',e=>{const r=frame.getBoundingClientRect(),
+  px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
+  gsap.to('#env',{rotationY:px*8,rotationX:-py*6,transformPerspective:1000,duration:.6,ease:'power2.out'})});
+frame.addEventListener('mouseleave',()=>gsap.to('#env',{rotationY:0,rotationX:0,duration:.8}));
+</script>
